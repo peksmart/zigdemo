@@ -84,19 +84,6 @@ LastWriteTime : [当前时间]
 
 然后在浏览器访问：`http://localhost:8080/index.html`
 
-## 常见问题
-
-- 为什么我用 `zig build-lib` 得到的是 `.a`？
-  - `build-lib` 默认产出静态库（.a）。对 `wasm32-freestanding` 也不会变为可直接加载的动态库；且该目标不支持 `-dynamic`。
-- 我能否指定输出文件名？
-  - 直接使用 `zig build-exe ...` 会生成 `lib.wasm`。若想更名，建议在构建完后重命名文件，或使用 `build.zig` 自定义安装名。
-- WASI 场景该如何构建？
-  - 如果要在 Wasmtime/Wasmer/Node(WASI) 中运行，使用 `wasm32-wasi` 目标，并提供入口：
-```powershell
-zig build-exe -target wasm32-wasi -O ReleaseSmall .\src\main.zig
-```
-  - 其中 `main.zig` 包含 `pub fn main() !void { ... }`。这种产物包含 `_start`，更像“可执行”。
-
 ## 下一步（可选）
 - 添加 `build.zig`，用 `zig build -Dtarget=wasm32-freestanding -Doptimize=ReleaseSmall` 一键构建并把产物安装到 `zig-out`。
 - 扩展导出 API，演示内存交互（传递字符串、数组、内存布局）。
